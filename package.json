@@ -4,6 +4,7 @@
   "description": "Telegram bot for home network",
   "main": "index.js",
   "scripts": {
+    "compile": "node build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,10 @@
   },
   "homepage": "https://github.com/zeckson/telegram-bot#readme",
   "dependencies": {
-    "node-telegram-bot-api": "^0.27.1"
+    "kotlin": "1.1.0",
+    "node-telegram-bot-api": "0.27.1"
+  },
+  "devDependencies": {
+    "kotlin-node": "0.2.0"
   }
 }
