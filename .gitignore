@@ -5,3 +5,4 @@ out
 lib
 
 npm-debug.log*
+.zecknet_bot
