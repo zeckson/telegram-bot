@@ -4,7 +4,8 @@
   "description": "Telegram bot for home network",
   "main": "index.js",
   "scripts": {
-    "compile": "node build",
+    "compile": "kotlinc-js -module-kind commonjs -output out/server.js -meta-info src/**/*.kt src/*.kt",
+    "start": "npm run compile && node out/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

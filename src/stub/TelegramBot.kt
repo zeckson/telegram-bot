@@ -1,13 +1,17 @@
 package stub
 
+import kotlin.js.Json
+import kotlin.js.Promise
 import kotlin.js.RegExp
 
-@JsModule("node-telegram-bot-api")
-external class TelegramBot(token: String, config: dynamic) {
+typealias Handler = (message: Message, matches: Array<String>) -> Unit;
 
-    fun onText(regExp: RegExp, handler: (message: Message, matches: Array<String>) -> Unit)
-    fun on(action: dynamic, handler: (message: Message) -> Unit)
-    fun sendMessage(chatId: dynamic, resp: String)
+@JsModule("node-telegram-bot-api")
+external class TelegramBot(token: String, config: Json) {
+    fun onText(regExp: RegExp, handler: Handler)
+    fun onText(string: String, handler: Handler)
+    fun on(action: String, handler: (message: Message) -> Unit)
+    fun sendMessage(chatId: Int, resp: Any): Promise<Error>
 }
 
 external interface Message {
@@ -49,6 +53,19 @@ external interface Message {
     val pinned_message: Message?                // Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
     val invoice: Invoice?                       // Optional. Message is an invoice for a payment, information about the invoice. More about payments »
     val successful_payment: SuccessfulPayment?  // Optional. Message is a service message about a successful payment, information about the payment. More about payments »
+}
+
+external interface Chat {
+    val id: Int                                     //Unique identifier for this chat. This number may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
+    val type: String                                //Type of chat, can be either “private”, “group”, “supergroup” or “channel”
+    val title: String?                              //Optional. Title, for supergroups, channels and group chats
+    val username: String?                           //Optional. Username, for private chats, supergroups and channels if available
+    val first_name: String?                         //Optional. First name of the other party in a private chat
+    val last_name: String?                          //Optional. Last name of the other party in a private chat
+    val all_members_are_administrators: Boolean?    //Optional. True if a group has ‘All Members Are Admins’ enabled.
+    val photo: ChatPhoto?                           //Optional. Chat photo. Returned only in getChat.
+    val description: String?                        //Optional. Description, for supergroups and channel chats. Returned only in getChat.
+    val invite_link: String?                        //Optional. Chat invite link, for supergroups and channel chats. Returned only in getChat.
 }
 
 external interface Location {
@@ -107,8 +124,7 @@ external interface MessageEntity {
 
 }
 
-external interface Chat {
-
+external interface ChatPhoto {
 
 }
 
