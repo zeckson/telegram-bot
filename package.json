@@ -6,7 +6,8 @@
   "scripts": {
     "compile": "kotlinc-js -module-kind commonjs -output out/server.js -meta-info src/**/*.kt src/*.kt",
     "start": "npm run compile && node out/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "now": "now -e API_KEY=@zeckson-telegram-bot"
   },
   "repository": {
     "type": "git",

@@ -5,10 +5,10 @@ import kotlin.js.json
 
 fun main(args: Array<String>) {
     // replace the value below with the Telegram token you receive from @BotFather
-    val token = process.argv[2] ?: throw Error("Token is not passed")
+    val token = process.env.get("API_KEY") ?: process.argv[2] ?: throw Error("Token is not passed")
 
     // Create a bot that uses `polling` to fetch new updates
-    val bot = TelegramBot(token, json("polling" to true))
+    val bot = TelegramBot(token as String, json("polling" to true))
 
     // Matches "/echo [whatever]"
     bot.onText(RegExp("/echo (.+)")) { msg, matches ->
