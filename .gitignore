@@ -1,7 +1,6 @@
 .idea
 
 node_modules
-out
 lib
 
 npm-debug.log*
