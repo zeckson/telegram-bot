@@ -11,7 +11,8 @@ external class TelegramBot(token: String, config: Json) {
     fun onText(regExp: RegExp, handler: Handler)
     fun onText(string: String, handler: Handler)
     fun on(action: String, handler: (message: Message) -> Unit)
-    fun sendMessage(chatId: Int, resp: Any): Promise<Error>
+    fun sendMessage(chatId: Int, resp: String): Promise<Error>
+    fun sendMessage(chatId: Int, resp: String, options: Json?): Promise<Error>
 }
 
 external interface Message {
