@@ -1,9 +1,13 @@
-import stub.*
-import kotlin.js.Json
+import stub.TelegramBot
+import stub.Util
+import stub.exec
+import stub.process
 import kotlin.js.RegExp
 import kotlin.js.json
 
 val ZECKSON_ID = 76694824;
+
+private val MAX_MESSAGE_LENGTH = 4096
 
 fun main(args: Array<String>) {
     // replace the value below with the Telegram token you receive from @BotFather
@@ -39,20 +43,35 @@ fun main(args: Array<String>) {
         val command = matches[1]
         console.log("Got command: $command")
 
-        if(!command.isEmpty()) {
-            exec(command, json()) { error: Error?, stdin: String, stderr: String ->
-                if (error!=null) {
-                    bot.sendMessage(chatId, "Error: ${error.message}")
+        fun shCodeBlock(content: Any) = "```sh\n$content```"
+
+        fun sendText(text: String) {
+            if (text.isNotEmpty()) {
+                if (text.length > MAX_MESSAGE_LENGTH) {
+                    // TODO: Buffer and split by \n if possible
+                    for (chunk in IntProgression.fromClosedRange(0, text.length, MAX_MESSAGE_LENGTH)) {
+                        sendText(text.substring(chunk, chunk + MAX_MESSAGE_LENGTH))
+                    }
                 } else {
                     val asMarkdown = json("parse_mode" to "Markdown")
-                    bot.sendMessage(chatId, "```$stdin```", asMarkdown)
-                    bot.sendMessage(chatId, "```$stderr```", asMarkdown)
+                    bot.sendMessage(chatId, shCodeBlock(text), asMarkdown)
                 }
             }
         }
 
-        // send back the matched "whatever" to the chat
-        bot.sendMessage(chatId, command)
+        if (!command.isEmpty()) {
+            exec(command, json()) { error: Error?, stdin: String, stderr: String ->
+                if (error != null) {
+                    bot.sendMessage(chatId, "Error: ${error.message}")
+                } else {
+                    console.log("Got response", stdin, stderr)
+                    sendText(stdin)
+                    sendText(stderr)
+                }
+            }
+        } else {
+            // TODO: send usage
+        }
     }
 
     bot.onText(RegExp("/show (.+)")) { msg, matches ->
@@ -78,11 +97,9 @@ fun main(args: Array<String>) {
     // Listen for any kind of message. There are different kinds of
     // messages.
     bot.on("message") { msg ->
-        val chatId = msg.chat.id
-
         // send a message to the chat acknowledging receipt of their message
-        bot.sendMessage(chatId, "Received your message: $msg")
         console.log(Util.inspect(msg))
     }
 
+    console.log("All set up! Ready to receive messages...")
 }

@@ -25,6 +25,7 @@
     "node-telegram-bot-api": "0.27.1"
   },
   "devDependencies": {
+    "@types/node": "^8.0.26",
     "kotlin-node": "1.0.0"
   }
 }
