@@ -6,6 +6,11 @@ import kotlin.js.RegExp
 
 typealias Handler = (message: Message, matches: Array<String>) -> Unit;
 
+external interface MessageOption {
+    var parse_mode: String? get() = definedExternally; set(value) = definedExternally
+    var reply_markup: Json? get() = definedExternally; set(value) = definedExternally
+}
+
 @JsModule("node-telegram-bot-api")
 external class TelegramBot(token: String, config: Json) {
     fun onText(regExp: RegExp, handler: Handler)
@@ -130,5 +135,11 @@ external interface ChatPhoto {
 }
 
 external interface User {
+    val id:Int	                // Unique identifier for this user or bot
+    val is_bot:Boolean	        // True, if this user is a bot
+    val first_name:String	    // User‘s or bot’s first name
+    val last_name:String	    // Optional. User‘s or bot’s last name
+    val username:String	        // Optional. User‘s or bot’s username
+    val language_code:String    // Optional. IETF language tag of the user's language
 
 }
