@@ -1,7 +1,7 @@
-import stub.TelegramBot
-import stub.Util
-import stub.exec
-import stub.process
+import stub.*
+import zeckson.telegram.Action
+import zeckson.telegram.BotController
+import kotlin.js.Promise
 import kotlin.js.RegExp
 import kotlin.js.json
 
@@ -15,6 +15,9 @@ fun main(args: Array<String>) {
 
     // Create a bot that uses `polling` to fetch new updates
     val bot = TelegramBot(token as String, json("polling" to true))
+
+    val controller = BotController(bot, emptyArray<Action>())
+    controller.init()
 
     // Matches "/echo [whatever]"
     bot.onText(RegExp("/echo (.+)")) { msg, matches ->

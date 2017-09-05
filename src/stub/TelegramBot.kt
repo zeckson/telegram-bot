@@ -138,8 +138,8 @@ external interface User {
     val id:Int	                // Unique identifier for this user or bot
     val is_bot:Boolean	        // True, if this user is a bot
     val first_name:String	    // User‘s or bot’s first name
-    val last_name:String	    // Optional. User‘s or bot’s last name
-    val username:String	        // Optional. User‘s or bot’s username
-    val language_code:String    // Optional. IETF language tag of the user's language
+    val last_name:String?	    // Optional. User‘s or bot’s last name
+    val username:String?	        // Optional. User‘s or bot’s username
+    val language_code:String?    // Optional. IETF language tag of the user's language
 
 }
