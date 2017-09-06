@@ -4,7 +4,7 @@
   "description": "Telegram bot for home network",
   "main": "index.js",
   "scripts": {
-    "compile": "kotlinc-js -module-kind commonjs -output out/server.js -meta-info src/**/*.kt src/**/**/*.kt src/*.kt",
+    "compile": "kotlinc-js -output out/server.js -module-kind commonjs src",
     "start": "node out/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "now": "now -e API_KEY=@zeckson-telegram-bot --npm"
@@ -26,6 +26,6 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.26",
-    "kotlin-node": "1.0.0"
+    "kotlin-node": "1.1.4"
   }
 }

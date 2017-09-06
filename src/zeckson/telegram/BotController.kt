@@ -7,6 +7,7 @@ class BotController(private val bot: TelegramBot, private val actions: Array<Act
         for (action in actions) {
             bot.onText("/${action.alias} (.+)") {msg, matches ->
                 val text = matches[0]
+                console.log(text);
                 action.handle(this, msg)
             }
         }
